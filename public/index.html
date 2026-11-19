@@ -7,64 +7,128 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>Healthcare Appointment Booking System</h1>
+  <header class="site-header">
+    <div class="container header-flex">
+      <h1>Healthcare Appointment Booking</h1>
+      <nav aria-label="User Account Navigation" id="userNav" class="hidden">
+        <span id="welcomeText"></span>
+        <button type="button" id="logoutBtn" class="btn btn-secondary">Log Out</button>
+      </nav>
+    </div>
   </header>
+
   <main class="container">
-    <section class="card">
-      <h2>Book an Appointment</h2>
-      <form id="booking-form">
-        <div class="form-group">
-          <label for="patientName">Patient Full Name</label>
-          <input type="text" id="patientName" required placeholder="e.g., Jordan Taylor" />
-        </div>
-        <div class="form-group">
-          <label for="provider">Healthcare Provider</label>
-          <select id="provider" required>
-            <option value="">-- Select a Provider --</option>
-            <option value="Dr. Sarah Smith (Family Medicine)">Dr. Sarah Smith (Family Medicine)</option>
-            <option value="Dr. David Lee (Pediatrics)">Dr. David Lee (Pediatrics)</option>
-            <option value="Dr. Priya Patel (Dermatology)">Dr. Priya Patel (Dermatology)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="date">Appointment Date</label>
-          <input type="date" id="date" required />
-        </div>
-        <div class="form-group">
-          <label for="timeSlot">Available Time Slot</label>
-          <select id="timeSlot" required>
-            <option value="">-- Select a Time --</option>
-            <option value="09:00 AM">09:00 AM</option>
-            <option value="10:30 AM">10:30 AM</option>
-            <option value="01:00 PM">01:00 PM</option>
-            <option value="03:30 PM">03:30 PM</option>
-          </select>
-        </div>
-        <button type="submit" class="primary-btn">Confirm Booking</button>
-      </form>
-      <p id="status-message" class="status-msg" role="alert"></p>
+    <div id="alertBox" role="alert" aria-live="polite" class="alert hidden"></div>
+
+    <!-- Feature 1: User Registration and Login -->
+    <section id="authSection" class="card-grid" aria-label="Account Access">
+      <div class="card">
+        <h2>Patient Login</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="loginEmail">Email Address</label>
+            <input type="email" id="loginEmail" required placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" required placeholder="Enter password" />
+          </div>
+          <button type="submit" class="btn btn-primary">Log In</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Create New Account</h2>
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="regName">Full Name</label>
+            <input type="text" id="regName" required placeholder="James Acobo" />
+          </div>
+          <div class="form-group">
+            <label for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" required placeholder="james@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="regPassword">Password</label>
+            <input type="password" id="regPassword" minlength="6" required placeholder="Minimum 6 characters" />
+          </div>
+          <button type="submit" class="btn btn-primary">Register Account</button>
+        </form>
+      </div>
     </section>
-    <section class="card">
-      <h2>Scheduled Appointments</h2>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Patient</th>
-              <th>Provider</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="appointments-list">
-            <tr><td colspan="5">Loading appointments...</td></tr>
-          </tbody>
-        </table>
+
+    <!-- Main Dashboard -->
+    <section id="dashboardSection" class="hidden" aria-label="Appointment Dashboard">
+      <!-- Feature 5: Appointment Reminder Notifications -->
+      <div id="reminderBanner" class="reminder-box hidden" role="status" aria-live="polite">
+        <strong>Upcoming Appointment Reminders:</strong>
+        <ul id="reminderList"></ul>
+      </div>
+
+      <!-- Feature 2: Book an Appointment -->
+      <div class="card">
+        <h2>Book an Appointment</h2>
+        <form id="bookingForm">
+          <div class="form-group">
+            <label for="patientName">Patient Full Name</label>
+            <input type="text" id="patientName" required />
+          </div>
+
+          <div class="form-group">
+            <label for="provider">Healthcare Provider</label>
+            <select id="provider" required>
+              <option value="Family Medicine - Dr. Sarah Smith">Family Medicine - Dr. Sarah Smith</option>
+              <option value="Pediatrics - Dr. David Lee">Pediatrics - Dr. David Lee</option>
+              <option value="Dermatology - Dr. Priya Patel">Dermatology - Dr. Priya Patel</option>
+              <option value="Cardiology - Dr. Michael Chen">Cardiology - Dr. Michael Chen</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="appointmentDate">Appointment Date</label>
+              <input type="date" id="appointmentDate" required />
+            </div>
+
+            <div class="form-group">
+              <label for="appointmentTime">Available Time Slot</label>
+              <select id="appointmentTime" required>
+                <option value="09:00 AM">09:00 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="01:30 PM">01:30 PM</option>
+                <option value="03:00 PM">03:00 PM</option>
+                <option value="04:30 PM">04:30 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Confirm Booking</button>
+        </form>
+      </div>
+
+      <!-- Feature 3 & Feature 4: View, Reschedule & Cancel Appointments -->
+      <div class="card">
+        <h2>Scheduled Appointments</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Patient</th>
+                <th scope="col">Provider</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="appointmentsTableBody"></tbody>
+          </table>
+        </div>
       </div>
     </section>
   </main>
+
   <script src="app.js"></script>
 </body>
 </html>
